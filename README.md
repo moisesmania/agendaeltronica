@@ -19,7 +19,7 @@ Este documento descreve como criar um diagrama de implantação para um sistema 
 
 ## Exemplo de Diagrama de Implantação
 
-```plaintext
+plaintext
 +---------------------+
 | User's Browser      |
 |                     |
@@ -51,16 +51,16 @@ Banco de dados embutido dentro do servidor de aplicações. Armazena informaçõ
 
 
 
-# AppListaDeTarefa
+## AppListaDeTarefa
 
 O AppListaDeTarefa é um aplicativo de notas desenvolvido em Python, usando Streamlit e SQLite3. Este aplicativo permite aos usuários criar, organizar e acompanhar suas tarefas diárias de maneira eficiente.
 
-## Objetivos
+Objetivos
 
-### Objetivo Geral
+Objetivo Geral
 Oferecer ao usuário um sistema que contribua para guardar informações para serem utilizadas no dia a dia de forma prática.
 
-### Objetivos Específicos
+## Objetivos Específicos
 - Fazer anotações de informações de forma rápida
 - Consultar informações rapidamente
 - Otimizar o tempo
@@ -70,56 +70,56 @@ Oferecer ao usuário um sistema que contribua para guardar informações para se
 
 ## Funcionalidades
 
-- **Adicionar novas notas**
-- **Visualizar notas existentes**
-- **Editar notas**
-- **Excluir notas**
+- Adicionar novas notas
+- Visualizar notas existentes
+- Editar notas
+- Excluir notas
 
 ## Instalação
 
-Siga os passos abaixo para instalar e executar o aplicativo em seu ambiente local:
+## Siga os passos abaixo para instalar e executar o aplicativo em seu ambiente local:
 
-1. **Clone o repositório**
-    ```bash
+1. Clone o repositório
+    bash
     git clone https://github.com/moisesmania/agendaeltronica.git
     cd app-lista-de-tarefa
-    ```
+    
 
-2. **Crie um ambiente virtual**
-    ```bash
+2. Crie um ambiente virtual
+    bash
     python -m venv venv
     source venv/bin/activate  # No Windows, use `venv\Scripts\activate`
-    ```
+    
 
-3. **Instale as dependências**
-    ```bash
+3. Instale as dependências
+    bash
     pip install -r requirements.txt
-    ```
+    
 
-4. **Execute o aplicativo**
-    ```bash
+4. Execute o aplicativo
+    bash
     streamlit run app.py
-    ```
+    
 
 ## Como Usar
 
-### Adicionar uma Nova Nota
+Adicionar uma Nova Nota
 1. Abra o aplicativo.
 2. Clique em "Adicionar Nota".
 3. Insira o título e o conteúdo da nota.
 4. Clique em "Salvar".
 
-### Visualizar Notas Existentes
+## Visualizar Notas Existentes
 1. Na página inicial, você verá uma lista de todas as suas notas.
 2. Clique em qualquer nota para visualizá-la em detalhes.
 
-### Editar uma Nota
+## Editar uma Nota
 1. Clique na nota que deseja editar.
 2. Clique em "Editar".
 3. Modifique o título e/ou o conteúdo da nota.
 4. Clique em "Salvar".
 
-### Excluir uma Nota
+## Excluir uma Nota
 1. Clique na nota que deseja excluir.
 2. Clique em "Excluir".
 3. Confirme a exclusão.
@@ -139,6 +139,12 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 ## Imagens
 
+### Tela Inicial rascuho
+![Tela Inicial](images/ ![alt text](<images/Design sem nome (1).jpg>))
+
+### Adicionar rascunho
+![Adicionar Nota](images/![alt text](<images/Design sem nome.jpg>) )
+
 ### Tela Inicial
 ![Tela Inicial](images/ ![tela de login](images/Untsist.jpg) )
 
@@ -148,7 +154,7 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 ### Visualizar Nota
 ![edição de senha](images/ ![alt text](images/Untsist3.jpg) )
 
-### Crud
+### Edicionar , ecluir , ler , editar
 ![Editar Nota](images/ ![alt text](images/Untsist4.jpg))
 
 
