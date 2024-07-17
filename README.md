@@ -18,28 +18,11 @@ Este documento descreve como criar um diagrama de implantação para um sistema 
 3. **Banco de Dados (Database)**: O banco de dados SQLite3 reside no mesmo servidor que o aplicativo Streamlit.
 
 Exemplo de Diagrama de Implantação
+## Imagens
 
-plaintext
-+---------------------+
-| User's Browser      |
-|                     |
-| +---------------+   |
-| | Streamlit     |   |
-| | Application   |   |
-| +---------------+   |
-|        ^            |
-|        |            |
-+--------|------------+
-         |
-         v
-+---------------------+
-| Web Server          |
-| (Streamlit App)     |
-|                     |
-| +---------------+   |
-| | SQLite3 DB    |   |
-| +---------------+   |
-+---------------------+
+### Diagrama de Implantação
+![Tela Inicial](images/ ![alt text](images/2.jpg) )
+
 
 Descrição do Diagrama
 User's Browser (Navegador do Usuário):
