@@ -17,7 +17,7 @@ Este documento descreve como criar um diagrama de implantação para um sistema 
 2. **Servidor de Aplicações (Web Server)**: Hospeda o aplicativo Streamlit.
 3. **Banco de Dados (Database)**: O banco de dados SQLite3 reside no mesmo servidor que o aplicativo Streamlit.
 
-## Exemplo de Diagrama de Implantação
+Exemplo de Diagrama de Implantação
 
 plaintext
 +---------------------+
