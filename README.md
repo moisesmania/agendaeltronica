@@ -135,10 +135,10 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 ![Adicionar Nota](images/ ![alt text](images/Untsist_2.jpg)  )
 
 ### Visualizar Nota
-![edição de senha](images/ ![alt text](images/Untsist3.jpg) )
+!(images/Untsist3.jpg) 
 
 ### Edicionar , ecluir , ler , editar
-![Editar Nota](images/ ![alt text](images/Untsist4.jpg))
+!(images/Untsist4.jpg)
 
 
  
