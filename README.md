@@ -135,16 +135,12 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
  ![alt text](images/Untsist_2.jpg)  
 
 ### Visualizar Nota
-!(images/Untsist3.jpg) 
+![Tela Inicial](images/ ![tela de login](images/Untsist3.jpg) )
 
 ### Edicionar , ecluir , ler , editar
-!(images/Untsist4.jpg)
+![Tela Inicial](images/ ![tela de login](images/Untsist4.jpg) )
 
-### Adicionar Rascunho
-![Adicionar Nota](../images/Design-sem-nome.jpg)
 
-### Tela Inicial
-![Tela Inicial](../images/Untsist.jpg)
  
  
 
