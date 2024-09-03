@@ -1,0 +1,34 @@
+/* styles.css */
+.stButton > button {
+    min-width: 120px;
+    max-width: 150px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3DD56D33; /* Verde whatsapp */
+    color: white;
+    border: none;
+}
+
+.stDataFrame {
+    background-color: #f0f0f0; /* Cor de fundo do DataFrame */
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+.footer button {
+    background-color: #3DD56D33; /* Verde whatsapp */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
