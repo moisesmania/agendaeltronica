@@ -123,22 +123,22 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 ## Imagens
 
 ### Tela Inicial rascuho
-![Tela Inicial](images/ ![alt text](<images/Design sem nome (1).jpg>))
+![alt text](<images/Design sem nome (1).jpg>)
 
 ### Adicionar rascunho
-![Adicionar Nota](images/![alt text](<images/Design sem nome.jpg>) )
+![alt text](<images/Design sem nome.jpg>) 
 
 ### Tela Inicial
-![Tela Inicial](images/ ![tela de login](images/Untsist.jpg) )
+![tela de login](images/Untsist.jpg) 
 
 ### Adicionar Nota
  ![alt text](images/Untsist_2.jpg)  
 
 ### Visualizar Nota
-![Tela Inicial](images/ ![tela de login](images/Untsist3.jpg) )
+![tela de login](images/Untsist3.jpg) 
 
 ### Edicionar , ecluir , ler , editar
-![Tela Inicial](images/ ![tela de login](images/Untsist4.jpg) )
+![alt text](images/Untsist4.jpg)
 
 
  
