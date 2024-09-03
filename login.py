@@ -14,7 +14,7 @@ def authenticate_user(username, password):
         return False
 
 def login_page():
-    st.title("Login")
+    st.title("Login da Agenda")
     
     username = st.text_input("Nome de usuário")
     password = st.text_input("Senha", type="password")

@@ -1,4 +1,3 @@
-/* styles.css */
 .stButton > button {
     min-width: 120px;
     max-width: 150px;
@@ -31,4 +30,9 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* Adicionando cor roxa ao cabeçalho do texto principal */
+h1, h2, h3, h4, h5, h6 {
+    color: #dae90fbe; /* Verde whatsapp */
 }
