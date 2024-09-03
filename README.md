@@ -21,7 +21,7 @@ Exemplo de Diagrama de Implantação
 ## Imagens
 
 ### Diagrama de Implantação
-![Tela Inicial](images/ ![alt text](images/2.jpg) )
+ ![alt text](images/2.jpg) 
 
 
 Descrição do Diagrama
