@@ -20,4 +20,4 @@ def register_page():
             st.success("Usuário criado com sucesso!")
             st.session_state['page'] = 'login'
         else:
-            st.error("Por favor, preencha todos os campos.")
+            st.error ("Por favor, preencha todos os campos.")
