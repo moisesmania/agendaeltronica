@@ -1,3 +1,45 @@
+/* Estilo básico da página */
+body {
+    background-color: #f5f5f5; /* Cor de fundo clara */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Estilizando o container principal */
+.stContainer {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+    color: #1d8b9e; /* Azul */
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Inputs estilizados */
+input, select, textarea, .stTextInput input, .stDateInput input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Foco nos inputs */
+input:focus, textarea:focus, .stTextInput input:focus, .stDateInput input:focus {
+    border-color: #1d8b9e; /* Azul */
+    box-shadow: 0 0 5px rgba(29, 139, 158, 0.3);
+    outline: none;
+}
+
+/* Botões estilizados */
 .stButton > button {
     min-width: 120px;
     max-width: 150px;
@@ -8,12 +50,19 @@
     background-color: #3DD56D33; /* Verde whatsapp */
     color: white;
     border: none;
+    transition: background-color 0.3s ease;
 }
 
+.stButton > button:hover {
+    background-color: #3DD56D33; /* Verde mais escuro */
+}
+
+/* Tabela DataFrame */
 .stDataFrame {
     background-color: #f0f0f0; /* Cor de fundo do DataFrame */
 }
 
+/* Rodapé fixo */
 .footer {
     position: fixed;
     bottom: 0;
@@ -30,9 +79,9 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Adicionando cor roxa ao cabeçalho do texto principal */
-h1, h2, h3, h4, h5, h6 {
-    color: #dae90fbe; /* Verde whatsapp */
+.footer button:hover {
+    background-color: #3DD56D33; /* Verde mais escuro */
 }

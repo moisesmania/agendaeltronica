@@ -1,74 +1,78 @@
 import sqlite3
 
-def create_db():
-    # Conecte ao banco de dados (ou crie um novo se não existir)
-    conn = sqlite3.connect('tarefas.db')
-    cursor = conn.cursor()
+def connect_db():
+    return sqlite3.connect('database.db')  # Substitua pelo caminho correto do seu banco de dados
 
-    # Crie a tabela de tarefas
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS tarefas (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        usuario TEXT NOT NULL,
-        descricao TEXT NOT NULL,
-        data DATE NOT NULL,
-        hora TEXT NOT NULL,
-        concluida BOOLEAN NOT NULL DEFAULT 0,
-        data_adicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        hora_adicao TEXT DEFAULT CURRENT_TIME
-    )
-    ''')
-
+def add_event(username, date, time, description):
+    conn = connect_db()
+    c = conn.cursor()
+    c.execute('INSERT INTO events (username, Date, Time, Description) VALUES (?, ?, ?, ?)',
+              (username, date, time, description))
     conn.commit()
     conn.close()
 
-def adicionar_tarefa(usuario, descricao, data, hora):
-    conn = sqlite3.connect('tarefas.db')
-    cursor = conn.cursor()
 
-    cursor.execute('''
-    INSERT INTO tarefas (usuario, descricao, data, hora)
-    VALUES (?, ?, ?, ?)
-    ''', (usuario, descricao, data, hora))
 
-    conn.commit()
-    conn.close()
-
-def excluir_tarefas(usuario, id_inicial, id_final):
-    conn = sqlite3.connect('tarefas.db')
-    cursor = conn.cursor()
-
-    cursor.execute('''
-    DELETE FROM tarefas
-    WHERE usuario = ? AND id BETWEEN ? AND ?
-    ''', (usuario, id_inicial, id_final))
-
-    conn.commit()
-    conn.close()
-
-def editar_tarefa(usuario, id_tarefa, nova_descricao, nova_data, nova_hora):
-    conn = sqlite3.connect('tarefas.db')
-    cursor = conn.cursor()
-
-    cursor.execute('''
-    UPDATE tarefas
-    SET descricao = ?, data = ?, hora = ?
-    WHERE usuario = ? AND id = ?
-    ''', (nova_descricao, nova_data, nova_hora, usuario, id_tarefa))
-
-    conn.commit()
-    conn.close()
-
-def obter_tarefas(usuario):
-    conn = sqlite3.connect('tarefas.db')
-    cursor = conn.cursor()
-
-    cursor.execute('''
-    SELECT id, descricao, data, hora, concluida, data_adicao, hora_adicao
-    FROM tarefas
-    WHERE usuario = ?
-    ''', (usuario,))
+def create_tables():
+    conn = sqlite3.connect('database.db')  # Substitua pelo caminho correto do seu banco de dados
+    c = conn.cursor()
     
-    tarefas = cursor.fetchall()
+    # Cria a tabela de eventos se não existir
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            Date TEXT NOT NULL,
+            Time TEXT NOT NULL,
+            Description TEXT NOT NULL
+        )
+    ''')
+    
+    conn.commit()
     conn.close()
-    return tarefas
+
+# Chame a função para criar as tabelas
+create_tables()
+
+
+# Função para criar uma conexão com o banco de dados
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    return conn
+
+# Função para adicionar um evento
+def add_event(username, date, time, description):
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('INSERT INTO events (username, Date, Time, Description) VALUES (?, ?, ?, ?)',
+              (username, date, time, description))
+    conn.commit()
+    conn.close()
+
+# Função para obter os eventos de um usuário
+def get_events(username):
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT * FROM events WHERE username = ?', (username,))
+    events = c.fetchall()
+    conn.close()
+    return [{"ID": event[0], "Date": event[2], "Time": event[3], "Description": event[4]} for event in events]
+
+# Função para excluir um evento
+def delete_event(username, event_id):
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('DELETE FROM events WHERE ID = ? AND username = ?', (event_id, username))
+    conn.commit()
+    conn.close()
+
+# Função para atualizar um evento
+def update_event(username, event_id, new_date, new_time, new_description):
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('''UPDATE events
+                 SET Date = ?, Time = ?, Description = ?
+                 WHERE ID = ? AND username = ?''',
+              (new_date, new_time, new_description, event_id, username))
+    conn.commit()
+    conn.close()

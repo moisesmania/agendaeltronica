@@ -1,123 +1,136 @@
 import streamlit as st
-from database import create_db, adicionar_tarefa, excluir_tarefas, editar_tarefa, obter_tarefas
+import pandas as pd
 from datetime import datetime
+from database import add_event, get_events, delete_event, update_event
 
 # Função para incluir o CSS
 def load_css(file_name):
     with open(file_name) as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-# Certifique-se de criar o banco de dados e tabelas se não existirem
-create_db()
+# Função para normalizar as chaves dos eventos
+def normalize_event_keys(events):
+    """Normaliza as chaves dos eventos para que o frontend use 'Descrição', 'Data', e 'Hora'."""
+    for event in events:
+        if 'Description' in event:
+            event['Descrição'] = event.pop('Description')  # Renomeia 'Description' para 'Descrição'
+        if 'Date' in event:
+            event['Data'] = event.pop('Date')  # Renomeia 'Date' para 'Data'
+        if 'Time' in event:
+            event['Hora'] = event.pop('Time')  # Renomeia 'Time' para 'Hora'
+    return events
 
-def agenda_page():
-    st.title("Lista de Tarefas")
-
-    # Verifica se o usuário está logado
-    if 'username' not in st.session_state:
-        st.warning("Por favor, faça o login.")
-        st.write("Clique no botão abaixo para voltar à página de login.")
-        if st.button("Voltar ao Login"):
-            st.session_state['page'] = "login"
-        return
-
-    username = st.session_state['username']
-
-    # Entrada para adicionar tarefa
-    descricao = st.text_input("Nova Tarefa:")
-    data = st.date_input("Data da Tarefa", datetime.today().date())
+# Função para exibir a tabela de eventos
+def display_events_table(events):
+    # Converte a lista de eventos para um DataFrame
+    events_df = pd.DataFrame(events)
     
-    # Entrada para hora como número (de 0 a 23)
-    hora_num = st.number_input("Hora da Tarefa (0-23)", min_value=0, max_value=23, value=datetime.now().hour)
-    minuto = st.number_input("Minuto da Tarefa (0-59)", min_value=0, max_value=59, value=datetime.now().minute)
+    # Renomeia as colunas para o formato desejado
+    events_df.rename(columns={"Date": "Data", "Time": "Hora", "Description": "Descrição"}, inplace=True)
     
-    hora_str = f"{hora_num:02d}:{minuto:02d}:00"  # Formata a hora e minuto no formato HH:MM:SS
+    # Ajusta o formato das datas para o formato brasileiro
+    events_df["Data"] = pd.to_datetime(events_df["Data"], format='%d/%m/%Y', errors='coerce').dt.strftime('%d/%m/%Y')
+    
+    # Reordena as colunas para que "Descrição" apareça primeiro
+    events_df = events_df[["Descrição", "Data", "Hora"]]
+    
+    # Exibe a tabela
+    st.dataframe(events_df, use_container_width=True, height=400)
 
-    # Botão para adicionar tarefa
-    if st.button("Adicionar Tarefa"):
-        if descricao:
-            # Verificar se a tarefa já existe
-            tarefas = obter_tarefas(username)
-            tarefa_existe = any(
-                tarefa[1] == descricao and tarefa[2] == data.strftime('%Y-%m-%d') and tarefa[3] == hora_str
-                for tarefa in tarefas
-            )
-            
-            if tarefa_existe:
-                st.warning("A tarefa com a mesma descrição, data e hora já existe.")
-            else:
-                adicionar_tarefa(username, descricao, data.strftime('%Y-%m-%d'), hora_str)
-                st.success("Tarefa adicionada!")
-        else:
-            st.warning("Por favor, adicione uma descrição para a tarefa.")
-
-    # Listar tarefas associadas ao usuário logado
-    tarefas = obter_tarefas(username)
-
-    # Ordenar tarefas pela data e hora de adição em ordem decrescente
-    tarefas_ordenadas = sorted(tarefas, key=lambda x: (x[5], x[6]), reverse=True)
-
-    if tarefas_ordenadas:
-        st.write("## Tarefas:")
-        for tarefa in tarefas_ordenadas:
-            if len(tarefa) >= 7:
-                id_tarefa = tarefa[0]
-                descricao_tarefa = tarefa[1]
-                
-                # Separar a data e hora de adição
-                data_adicao_completa = tarefa[5]
-                data_adicao, hora_adicao = data_adicao_completa.split(' ')  # Divide a string em data e hora
-                
-                # Converter e formatar a data no formato brasileiro
-                data_adicao = datetime.strptime(data_adicao, '%Y-%m-%d').strftime('%d/%m/%Y')
-
-                data_evento = datetime.strptime(tarefa[2], '%Y-%m-%d').strftime('%d/%m/%Y')
-                hora_evento = tarefa[3]
-                concluida = "Concluída" if tarefa[4] else "Pendente"
-
-                st.write(f"""
-                **ID =**                            {id_tarefa}
-                **Descrição:**                     {descricao_tarefa}
-                **Data e Hora da Adição:**      {data_adicao}  | {hora_adicao}
-                **Data e Hora do Evento:**      {data_evento}  | {hora_evento}
-                **Status:**                        {concluida}
-                """)
-
-            else:
-                st.write(f"Tarefa com dados incompletos: {tarefa}")
-
-        # Opções para editar e excluir tarefa
-        opcao = st.selectbox("Editar ou Apagar:", ["Editar Tarefa", "Excluir Tarefa"])
-        if opcao == "Editar Tarefa":
-            id_tarefa = st.text_input("ID da Tarefa:")
-            nova_descricao = st.text_input("Nova Descrição:")
-            nova_data = st.date_input("Nova Data da Tarefa", datetime.today().date())
-            nova_hora_num = st.number_input("Nova Hora da Tarefa (0-23)", min_value=0, max_value=23, value=datetime.now().hour)
-            novo_minuto = st.number_input("Novo Minuto da Tarefa (0-59)", min_value=0, max_value=59, value=datetime.now().minute)
-            nova_hora_str = f"{nova_hora_num:02d}:{novo_minuto:02d}:00"  # Formata a nova hora e minuto no formato HH:MM:SS
-            
-            if st.button("Editar"):
-                if id_tarefa and nova_descricao:
-                    editar_tarefa(username, id_tarefa, nova_descricao, nova_data.strftime('%Y-%m-%d'), nova_hora_str)
-                    st.success("Tarefa editada com sucesso!")
-                else:
-                    st.warning("Por favor, insira o ID da tarefa e a nova descrição.")
-        elif opcao == "Excluir Tarefa":
-            id_inicial = st.number_input("ID Inicial da Tarefa:", min_value=1, value=1)
-            id_final = st.number_input("ID Final da Tarefa:", min_value=1, value=1)
-            if st.button("Excluir"):
-                if id_inicial <= id_final:
-                    excluir_tarefas(username, id_inicial, id_final)
-                    st.success("Tarefas excluídas com sucesso!")
-                else:
-                    st.warning("O ID inicial deve ser menor ou igual ao ID final.")
-    else:
-        st.write("Ainda não há tarefas adicionadas.")
+    # Selecionar evento para edição ou exclusão
+    selected_event_id = st.selectbox(
+        "Escolha o evento para editar ou excluir:",
+        options=[event['ID'] for event in events],
+        format_func=lambda x: next(item['Descrição'] for item in events if item['ID'] == x),  # Usa 'Descrição'
+        key="event_select"
+    )
+    
+    if selected_event_id:
+        selected_event = next(item for item in events if item['ID'] == selected_event_id)
         
+        # Exibir opções de edição e exclusão
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Editar Evento", key=f"edit_{selected_event_id}"):
+                st.session_state.event_id_to_edit = selected_event_id
+                st.session_state.edit_date = datetime.strptime(selected_event['Data'], "%d/%m/%Y").date() if selected_event['Data'] else None
+                st.session_state.edit_time = datetime.strptime(selected_event['Hora'], "%H:%M:%S").time() if selected_event['Hora'] else None
+                st.session_state.edit_description = selected_event['Descrição']
+
+        with col2:
+            if st.button("Excluir Evento", key=f"delete_{selected_event_id}"):
+                delete_event(st.session_state.username, selected_event_id)
+                st.success("Evento excluído com sucesso!")
+                st.session_state.events = get_events(st.session_state.username)
+
+# Função de logout
+def logout():
+    st.session_state.clear()  # Limpa todos os dados da sessão
+    st.write("Você foi desconectado com sucesso. Clique para ser redirecionado para a página de login...")
+    st.stop()
+
+# Página de agenda com tabela de eventos
+def agenda_page():
+    st.title("Agenda de Eventos")
+    username = st.session_state.username
+
     # Inclui o CSS
     load_css("styles.css")
 
-    # Botão para sair da sessão
-    if st.button("Sair"):
-        st.session_state.clear()
-        st.session_state['page'] = "login"
+    # Container principal
+    with st.container():
+        st.header("Adicionar Evento")
+
+        # Reorganizando o formulário com os campos na ordem desejada
+        with st.form(key="add_event_form"):
+            # Descrição do evento
+            description = st.text_input("Descrição do Evento", placeholder="Ex: Reunião com o cliente")
+            
+            # Data do evento
+            date = st.date_input("Data")
+            
+            # Hora do evento
+            time = st.time_input("Hora")
+            
+            # Botão de adicionar evento
+            if st.form_submit_button("Adicionar Evento"):
+                formatted_date = date.strftime('%d/%m/%Y')
+                formatted_time = time.strftime('%H:%M:%S')
+                add_event(username, formatted_date, formatted_time, description)
+                st.success("Evento adicionado com sucesso!")
+                st.session_state.events = get_events(username)
+
+    with st.container():
+        st.header("Seus Agendamentos")
+        if 'events' not in st.session_state:
+            st.session_state.events = get_events(username)
+        
+        # Normaliza as chaves dos eventos para evitar erro de chave
+        events = normalize_event_keys(st.session_state.events)
+        
+        if events:
+            display_events_table(events)
+            
+            if 'event_id_to_edit' in st.session_state:
+                st.write("### Editar Evento")
+                
+                edit_date = st.session_state.get('edit_date', datetime.now().date())
+                edit_time = st.session_state.get('edit_time', datetime.now().time())
+                edit_description = st.session_state.get('edit_description', '')
+                
+                new_date = st.date_input("Nova Data", value=edit_date)
+                new_time = st.time_input("Nova Hora", value=edit_time)
+                new_description = st.text_input("Nova Descrição", value=edit_description)
+
+                if st.button("Salvar Alterações"):
+                    formatted_new_date = new_date.strftime('%d/%m/%Y')
+                    formatted_new_time = new_time.strftime('%H:%M:%S')
+                    update_event(username, st.session_state.event_id_to_edit, formatted_new_date, formatted_new_time, new_description)
+                    st.success("Evento atualizado com sucesso!")
+                    del st.session_state.event_id_to_edit
+                    st.session_state.events = get_events(username)
+        else:
+            st.info("Nenhum evento encontrado.")
+        
+        if st.button("Sair"):
+            logout()

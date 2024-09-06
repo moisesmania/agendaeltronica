@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
 
+
 def authenticate_user(username, password):
     try:
         conn = sqlite3.connect('users.db')
@@ -29,9 +30,9 @@ def login_page():
         else:
             st.error("Nome de usuário ou senha incorretos")
     
-    if st.button("Esqueci a Senha"):
+    if st.button("Trocar Senha"):
         st.session_state['page'] = 'reset_password'
     
-    if st.button("Criar Novo Usuário"):
+    if st.button("Criar Usuário"):
         st.session_state['page'] = 'register'
 

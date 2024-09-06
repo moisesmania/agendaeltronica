@@ -4,7 +4,7 @@ def main_page():
     st.title("Página de Boas Vindas")
     
     # Introdução ao sistema de agendamento
-    st.subheader("Bem-vindo ao Sistema de Agendamento Moderno!")
+    st.subheader("Sistema de Agendamento Moderno!")
     st.write("""
     Este sistema foi desenvolvido para ajudá-lo a gerenciar seus eventos e compromissos de maneira eficiente e segura.
     Com ele, você pode adicionar novos eventos, editar detalhes de eventos já cadastrados, e excluir aqueles que já não são mais necessários.
@@ -15,7 +15,7 @@ def main_page():
     """)
 
     # Boas-vindas ao usuário
-    st.write(f"Bem-vindo, {st.session_state['username']}!")
+    st.write(f"Seja Bem-Vondoª, {st.session_state['username']}!")
 
     # Botões para navegação
     col1, col2 = st.columns(2)
