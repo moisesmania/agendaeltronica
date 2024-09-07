@@ -15,7 +15,7 @@ def main_page():
     """)
 
     # Boas-vindas ao usuário
-    st.write(f"Seja Bem-Vondoª, {st.session_state['username']}!")
+    st.write(f"Seja Bem-Vindo! {st.session_state['username']}!")
 
     # Botões para navegação
     col1, col2 = st.columns(2)
